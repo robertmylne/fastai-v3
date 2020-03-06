@@ -29,7 +29,18 @@ function analyze() {
   xhr.onload = function(e) {
     if (this.readyState === 4) {
       var response = JSON.parse(e.target.responseText);
-      el("result-label").innerHTML = `Result = ${response["result"]}`;
+      el("result-label").innerHTML = `
+        <h4>Most likely:</h4>
+        Result = ${response["percentages"][0]["name"]} <br>
+        Probability = ${response["percentages"][0]["value"]} <br>
+        <hr>
+        <h4>Might also be:</h4>
+        Result = ${response["percentages"][1]["name"]} <br>
+        Probability = ${response["percentages"][1]["value"]} <br> <br>
+        Result = ${response["percentages"][2]["name"]} <br>
+        Probability = ${response["percentages"][2]["value"]} <br>
+      `;
+
     }
     el("analyze-button").innerHTML = "Analyze";
   };

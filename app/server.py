@@ -1,6 +1,8 @@
 import aiohttp
 import asyncio
 import uvicorn
+import pandas
+import functions
 from fastai import *
 from fastai.vision import *
 from io import BytesIO
@@ -9,10 +11,12 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 
-export_file_url = 'https://drive.google.com/u/0/uc?id=14pt8gFJJs1wdFYDKWODixv44-ChGAIVU&export=download'
+export_file_url = 'https://drive.google.com/u/0/uc?id=1-9oDpH9esk4P1Yl76IwTl7QwAIngMpDV&export=download'
+export_classes_url = 'https://drive.google.com/u/0/uc?id=1StFx4nh3InJxtkDOpR3LIuTlOw8tOosy&export=download'
 export_file_name = 'export.pkl'
 
-classes = ['black', 'grizzly', 'teddys']
+classesDict = pandas.read_csv(export_classes_url, index_col=0, header=0, squeeze=True).to_dict()
+classes = [*classesDict.keys()]
 path = Path(__file__).parent
 
 app = Starlette()
@@ -60,8 +64,15 @@ async def analyze(request):
     img_data = await request.form()
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
-    prediction = learn.predict(img)[0]
-    return JSONResponse({'result': str(prediction)})
+    # print(learn.predict(img))
+    # print('-')
+    # print(learn.predict(img)[0])
+    prediction, index, probabilities = learn.predict(img)
+    return JSONResponse({
+        'result': functions.result(classesDict, prediction),
+        'probabilities': functions.probabilites(classes, classesDict, probabilities, to_dict=True),
+        'percentages': functions.percentages(classes, classesDict, probabilities, to_dict=True)
+    })
 
 
 if __name__ == '__main__':

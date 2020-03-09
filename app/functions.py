@@ -10,8 +10,8 @@ def num_converter(num):
     percentage = round(probability * 10 * 10, 2)
 
     return {
-        'probability': '{:.2f}'.format(probability),
-        'percentage': '{:.2%}'.format(percentage)
+        'probability': probability,
+        'percentage': f"{percentage}%"
     }
 
 

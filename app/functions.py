@@ -4,7 +4,7 @@ import math
 def round_down(n, decimals=0):
     multiplier = 10 ** decimals
 
-    return math.floor(n * multiplier) / multiplier
+    return math.round(math.floor(n * multiplier) / multiplier, 2)
 
 
 def to_percentage(decimal_number):

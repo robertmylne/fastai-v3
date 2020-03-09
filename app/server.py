@@ -68,11 +68,7 @@ async def analyze(request):
     # print('-')
     # print(learn.predict(img)[0])
     prediction, index, probabilities = learn.predict(img)
-    return JSONResponse({
-        'result': functions.result(classesDict, prediction),
-        'probabilities': functions.probabilites(classes, classesDict, probabilities, to_dict=True),
-        'percentages': functions.percentages(classes, classesDict, probabilities, to_dict=True)
-    })
+    return JSONResponse(functions.results(classes, classesDict, probabilities))
 
 
 if __name__ == '__main__':

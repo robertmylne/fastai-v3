@@ -18,6 +18,7 @@ def results(classes, classesDict, probabilities, remove_zeros=True, sort=True):
 
     results = [{
         'name': c, 
+        'original': p.item(),
         'probability': round_down(p.item(), 4),
         'percentage': to_percentage(round_down(p.item(), 4))
         } for (c, p) in zip(classes, probabilities)]

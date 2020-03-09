@@ -1,16 +1,18 @@
 import math
-from decimal import Decimal
+from decimal import *
 
 
-def round_down(n, decimals=0):
+def num_converter(num):
+    decimals = 4
     multiplier = 10 ** decimals
 
-    return math.floor(n * multiplier) / multiplier
+    probability = math.floor(num * multiplier) / multiplier
+    percentage = round(probability * 10 * 10, 2)
 
-
-def to_percentage(decimal_number):
-
-  return f"{Decimal(decimal_number) * 10 * 10}%"
+    return {
+        'probability': probability,
+        'percentage': f"{percentage}%"
+    }
 
 
 def results(classes, classesDict, probabilities, remove_zeros=True, sort=True):
@@ -18,8 +20,8 @@ def results(classes, classesDict, probabilities, remove_zeros=True, sort=True):
     results = [{
         'name': c, 
         'original': p.item(),
-        'probability': round_down(p.item(), 4),
-        'percentage': to_percentage(round_down(p.item(), 4))
+        'probability': num_converter(p.item())['probability'],
+        'percentage': num_converter(p.item())['percentage']
         } for (c, p) in zip(classes, probabilities)]
 
     if remove_zeros:

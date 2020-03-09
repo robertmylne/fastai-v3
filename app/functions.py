@@ -1,4 +1,5 @@
 import math
+from decimal import Decimal
 
 
 def round_down(n, decimals=0):
@@ -6,12 +7,10 @@ def round_down(n, decimals=0):
 
     return math.floor(n * multiplier) / multiplier
 
-    return round(math.floor(n * multiplier) / multiplier, 2)
-
 
 def to_percentage(decimal_number):
 
-  return f"{decimal_number * 10 * 10}%"
+  return f"{Decimal(decimal_number) * 10 * 10}%"
 
 
 def results(classes, classesDict, probabilities, remove_zeros=True, sort=True):
